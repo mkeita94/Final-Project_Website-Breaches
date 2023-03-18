@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+  }
+  html {
+    background-color: #fff;
+    font-size: 16px;
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  
+    /* these are specific to different browsers */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  
+    font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: white;
+  }
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .container {
+    
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex:1;
+  }
+  .header {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1.5rem;
+    background-color: lightblue;
+    
+  }
+  #footer {
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: lightblue;
+    color: blue;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: auto;
+  }
+  #menu ul{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    
+  } 
+  li a{
+    text-decoration: none;
+  }  
+
+.filter-viz1, .filter-viz2{
+    display: flex;
+    justify-content: flex-start;
+}
+#filter1, #filter2{
+  background-color: lightblue;
+  margin-top: 5px;
+  padding: 3px;
+}
+#viz-title{
+  margin: auto;
+}
+.filter-viz2{
+  display: flex;
+  justify-content: space-between;
+}
+#viz2{
+  display: flex;
+  background-color: blue;
+  justify-content: space-between;
+}
+#viz2 #companies, #sensitive, #info{
+  border-color: black;
+  border-radius: 20px;
+}

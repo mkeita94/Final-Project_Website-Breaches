@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Data Breach Visualizer</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header class ="header">
+            <h4 id="logo">Data Breach Visualizer</h4>
+            <nav id="menu">
+                <ul>
+                    <li><a href="./index.html">Home</a> </li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="https://github.com/mkeita94/Final-Project_Website-Breaches">Source Code</a></li>
+                </ul>
+            </nav>
+
+        </header>
+        <div class="container">
+            <h4 id="viz-title">Visualization of Websites Breaches</h4>
+            <!--Visualization filters-->
+            <div class="filter-viz1">
+                <!--Filter 1-->
+                <div id="filter1">
+                    <h4>Sensitivity</h4>
+                    <select name="sensitive-data" id="sensitive-data">
+                        <option value="sensitive">Sensitive</option>
+                        <option value="non-sensitive">Non-Sensitive</option>
+                    </select>
+                    <h4>Years</h4>
+                    <select name="years" id="years">
+                        <option value="year">2020</option>
+                    </select>
+                </div>
+                <!--Visualization 1-->
+                <div id="viz1"></div>
+                
+            </div>
+            <div class="filter-viz2">
+                <!--Filter 2-->
+                <div id="filter2">
+                    <h4>Years</h4>
+                    <select name="years" id="years">
+                        <option value="year">2020</option>
+                    </select>
+                </div>
+                <!--Visualization 2-->
+                <div id="viz2">
+                    <div id="companies">number of companies</div>
+                    <div id="sensitive">number of sensitive data</div>
+                    <div id="info">info</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">Copyright 2023 - Final Project</footer>
+</body>
+</html>

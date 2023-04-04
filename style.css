@@ -78,8 +78,10 @@
 }
 #filter1, #filter2{
   background-color: lightblue;
-  margin-top: 5px;
+  margin: 5px;
   padding: 3px;
+  width: 500px;
+  height: auto;
 }
 #viz-title{
   margin: auto;
@@ -87,13 +89,23 @@
 .filter-viz2{
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
-#viz2{
+#viz2, #viz1{
   display: flex;
-  background-color: blue;
-  justify-content: space-between;
+  background-color: lightgray;
+  justify-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+}
+#viz1{
+  background-color: aqua;
+  margin: 5px;
+  padding: 3px;
+  width: 500px;
+  height: auto;
 }
 #viz2 #companies, #sensitive, #info{
   border-color: black;
-  border-radius: 20px;
+  border-radius: 100px;
 }

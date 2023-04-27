@@ -86,8 +86,8 @@
   background-color: lightgray;
   margin-left: 75px;
   padding: 3px;
-  width: 700px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
 }
 #viz1, #viz2{
   background-color: lightgray;
@@ -127,7 +127,7 @@
   background-color: red;
 } 
 .box {
-  border: 2px solid black;
+  border: 2px solid white;
   border-radius: 4px;
 
   width: fit-content;
@@ -146,7 +146,7 @@ li a:hover {
 
 /* How To Write A Media Query For Small Screens */
   
-@media only screen and (max-width: 736px){
+@media only screen and (max-width: 1000px){
   /* Rules in here will only apply when a screen is the correct size */
   /* check it out by using your developer tools to shrink your screen-size */
   .container {
@@ -170,13 +170,17 @@ li a:hover {
     background-color: lightblue;
     margin: auto;
     padding: 5px;
-    max-width: 300px;
+    width: 380px;
   }
   #viz1, #viz2{
     background-color: lightgray;
     margin:auto;
     padding: 3px;
-    max-width: 300px;
+    width: 380px;
     height: auto;
+  }
+  .box{
+    border-color: #fff;
+    margin: auto;
   }
 }

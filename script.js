@@ -1,136 +1,166 @@
-//Returns whether data is sensitive or not
-//function dataTypeFromBoolToString()
-function boolString(item) {
-  if (item == true) {
-    return "sensitive";
-  } else {
-    return "non-sensitive";
+/*
+  Hook this script to index.html
+  by adding `<script src="script.js">` just before your closing `</body>` tag
+*/
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function injectHTML(list) {
+  console.log("fired injectHTML");
+  const target = document.querySelector("#restaurants_list");
+  target.innerHTML = "";
+  list.forEach((item) => {
+    const str = `<li>${item.name}</li>`;
+    target.innerHTML += str;
+  });
+}
+
+function filterList(array, filterInputValue) {
+  return array.filter((item) => {
+    const lowerCaseName = item.name.toLowerCase();
+    const lowerCaseQuery = filterInputValue.toLowerCase();
+    return lowerCaseName.includes(lowerCaseQuery);
+  });
+}
+
+function randomList(min, max) {
+  idx = [];
+  while (idx.length < 50) {
+    let r = getRandomIntInclusive(min, max);
+    if (idx.indexOf(r) === -1) idx.push(r);
   }
+  return idx;
+  //return (array = idx.map((item) => array[item]));
 }
 
-function filterSensitiveData(array, SensitiveDataInput1, SensitiveDataInput2) {
-  return array.filter((item) =>
-    item.type_data.includes(SensitiveDataInput1, SensitiveDataInput2)
+function filterChartData(array, year, sensitivity) {
+  let IsSensitive = false;
+  if (sensitivity === "true") {
+    IsSensitive = true;
+  }
+  return array.filter(
+    (item) =>
+      item.BreachDate.slice(0, 4).includes(year) &&
+      item.IsSensitive === IsSensitive
   );
-}
-function pullData(array, item) {
-  return array.map((currArr) => {
-    return currArr[item];
-  });
+  // return array.filter((item) => item.BreachDate.includes(year));
 }
 
-function initChart(chart, object) {
-  const labels = Object.keys(object); // location names
-  const info = Object.values(object); // num of times location appears
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Number of Breaches by Websites",
-        data: info,
-        backgroundColor: "rgb(159, 30, 120)",
-      },
-    ],
-  };
-
-  const config = {
+function initChart(target, data, labels) {
+  const chart = new Chart(target, {
     type: "bar",
-    data: data,
-    options: {},
-  };
-
-  return new Chart(chart, config);
-}
-
-function shapeChartData(array, chartValue = "BreachedDate") {
-  return array.reduce((collection, item) => {
-    if (!collection[item[chartValue]]) {
-      collection[item[chartValue]] = parseInt(item.PwnCount);
-    } else {
-      collection[item[chartValue]] += parseInt(item.PwnCount);
-    }
-
-    return collection;
-  }, {});
-}
-function addData(chart, object) {
-  const labels = Object.keys(object); // location names
-  const info = Object.values(object); // num of times location appears
-  chart.data.labels = labels;
-  chart.data.datasets.data = info;
-  chart.update();
-}
-
-function removeData(chart) {
-  chart.data.labels = [];
-  chart.data.datasets.data = [];
-  chart.update();
-}
-
-async function retrieveData() {
-  const url = "https://data.princegeorgescountymd.gov/resource/9tsa-iner.json"; // remote URL! you can test it in your browser
-  const data = await fetch(url); // We're using a library that mimics a browser 'fetch' for simplicity
-  const json = await data.json(); // the data isn't json until we access it using dot notation
-  return pullData(json);
-}
-async function mainEvent() {
-  const url = "https://haveibeenpwned.com/api/v2/breaches/"; // remote URL! you can test it in your browser
-  const data = await fetch(url); // We're using a library that mimics a browser 'fetch' for simplicity
-  const json = await data.json(); // the data isn't json until we access it using dot notation
-  let uniqueArr = [];
-
-  console.log(json);
-
-  // Data array
-  console.log(uniqueArr);
-  const typeData = document.querySelector("#type_data");
-  //const showMap = initMap();
-
-  let type_data = typeData.value;
-  console.log(type_data);
-
-  const form = document.querySelector(".filters");
-  const submit = document.querySelector("#refresh-button");
-
-  console.log(form);
-  let currentArr = [];
-
-  // Display Chart
-  const targetChart = document.querySelector("#myChart");
-  const changeXAxis = document.querySelector("#x-axis-filters");
-  const chartData = await retrieveData();
-  const shapedChart = shapeChartData(json);
-  const showChart = initChart(targetChart, shapedChart);
-  console.log("shapedChart:", shapedChart);
-
-  // Event listener for refresh button
-  /*form.addEventListener("submit", (submitEvent) => {
-    console.log("typeLitter:", typeLitter.value);
-    // submitEvent.preventDefault();
-    console.log("Refresh Button Pressed");
-    injectHTML(uniqueArr);
-    markerPlace(mapFilters, showMap);
-  });*/
-
-  // Event listener for map dropdown menu (select options)
-  /*typeLitter.addEventListener("change", (submitEvent) => {
-    // submitEvent.preventDefault();
-    const filterLitter = filterLitterData(json, typeLitter.value).slice(0, 30);
-    console.log("mapFilters", filterLitter);
-    console.log("type_litter_val: ", typeLitter.value);
-
-    markerPlace(filterLitter, showMap);
-  });*/
-
-  // Event listener for chart dropdown menu
-  changeXAxis.addEventListener("change", (submitEvent) => {
-    console.log("Chart Filter Selection Pressed");
-
-    const chartSelection = shapeChartData(json, changeXAxis.value);
-    removeData(showChart);
-    addData(showChart, chartSelection);
-    console.log("shape data:", chartSelection);
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          //x-axis
+          label: "Accounts Breached",
+          data: data,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   });
+  return chart;
 }
 
-document.addEventListener("DOMContentLoaded", async () => mainEvent());
+function processChartData(data) {
+  const dataForChart = data.reduce((col, item, idx) => {
+    //split by number of breaches
+    // if (!col[item.Name]) {
+    //   col[item.Name] = 1;
+    // } else {
+    //   col[item.Name] += 1;
+    // }
+    col[item.Name] = item.PwnCount;
+    return col;
+  }, {});
+
+  const dataSet = Object.values(dataForChart);
+  const labels = Object.keys(dataForChart);
+
+  //console.log(dataForChart);
+  return [dataSet, labels];
+}
+
+function updateChart(chart, newInfo) {
+  const chartData = processChartData(newInfo);
+  chart.data.labels = chartData[1];
+  chart.data.datasets[0].data = chartData[0];
+  chart.update();
+}
+
+async function mainEvent() {
+  // the async keyword means we can make API requests
+  const chart = document.querySelector("#myChart");
+  const filterButton = document.querySelector("#filter-button");
+  const chartYears = document.querySelector("#chart_years");
+  const sensitivity = document.querySelector("#type_data");
+
+  const storedData = localStorage.getItem("storedData");
+  let parsedData = JSON.parse(storedData);
+
+  let currentList = []; // this is "scoped" to the main event function
+
+  const chartData = processChartData(parsedData);
+  const newChart = initChart(chart, chartData[0], chartData[1]);
+
+  //   // Basic GET request - this replaces the form Action
+  const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
+
+  //   // This changes the response from the GET into data we can use - an "object"
+  const storedList = await results.json();
+  localStorage.setItem("storedData", JSON.stringify(storedList));
+  parsedData = storedList;
+
+  filterButton.addEventListener("click", (submitEvent) => {
+    submitEvent.preventDefault();
+    const recallList = localStorage.getItem("storedData");
+    const storedList = JSON.parse(recallList);
+    //671 rows
+    console.log(storedList);
+    idx = randomList(0, 670);
+    currentList = idx.map((item) => storedList[item]);
+    console.log("curr", currentList);
+    const filterYear = filterChartData(
+      currentList,
+      chartYears.value,
+      sensitivity.value
+    );
+    if (filterYear.length === 0)
+      window.alert("ZERO VALUE RETURNED\n\n REFRESH TO GENERATE DATA");
+    console.log("year: ", chartYears.value);
+    console.log("data: ", filterYear);
+    updateChart(newChart, filterYear);
+  });
+
+  // textField.addEventListener("input", (event) => {
+  //   console.log("input", event.target.value);
+  //   const newFilterList = filterList(currentList, event.target.value);
+  //   console.log(newFilterList);
+  //   injectHTML(newFilterList);
+  //   markerPlace(newFilterList, carto);
+  // });
+  // clearButton.addEventListener("click", (event) => {
+  //   console.log("clear browser data");
+  //   localStorage.clear();
+  //   console.log("localStorage Check", localStorage.getItem("storedData"));
+  // });
+}
+
+/*
+      This adds an event listener that fires our main event only once our page elements have loaded
+      The use of the async keyword means we can "await" events before continuing in our scripts
+      In this case, we load some data when the form has submitted
+    */
+document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests

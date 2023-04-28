@@ -49,15 +49,19 @@ function filterChartData(array, year, sensitivity) {
   // return array.filter((item) => item.BreachDate.includes(year));
 }
 
-function initChart(target, data, labels) {
+function filterPieData(array, year) {
+  return array.filter((item) => item.BreachDate.slice(0, 4).includes(year));
+}
+
+function initChart(target, data, labels, type) {
   const chart = new Chart(target, {
-    type: "bar",
+    type: type,
     data: {
       labels: labels,
       datasets: [
         {
           //x-axis
-          label: "Accounts Breached",
+          label: "Breaches",
           data: data,
           borderWidth: 1,
         },
@@ -93,6 +97,41 @@ function processChartData(data) {
   return [dataSet, labels];
 }
 
+function processPieData(data) {
+  const dataForPie = data.reduce((col, item) => {
+    //split by number of breaches
+    for (let i = 0; i < item.DataClasses.length; i++) {
+      if (!col[item.DataClasses[i]]) {
+        col[item.DataClasses[i]] = 1;
+      } else {
+        col[item.DataClasses[i]] += 1;
+      }
+    }
+    //col[item.Name] = item.PwnCount;
+    return col;
+  }, {});
+
+  const dataSet = Object.values(dataForPie);
+  const labels = Object.keys(dataForPie);
+
+  //console.log(dataForChart);
+  return [dataSet, labels];
+}
+
+function addData(chart, object) {
+  const labels = Object.keys(object); // location names
+  const info = Object.values(object); // num of times location appears
+  chart.data.labels = labels;
+  chart.data.datasets.data = info;
+  chart.update();
+}
+
+function removeData(chart) {
+  chart.data.labels = [];
+  chart.data.datasets.data = [];
+  chart.update();
+}
+
 function updateChart(chart, newInfo) {
   const chartData = processChartData(newInfo);
   chart.data.labels = chartData[1];
@@ -100,11 +139,21 @@ function updateChart(chart, newInfo) {
   chart.update();
 }
 
+function updatePie(pie, newInfo) {
+  const pieData = processPieData(newInfo);
+  pie.data.labels = pieData[1];
+  pie.data.datasets[0].data = pieData[0];
+  pie.update();
+}
 async function mainEvent() {
   // the async keyword means we can make API requests
   const chart = document.querySelector("#myChart");
+  const pie = document.querySelector("#myPie");
   const filterButton = document.querySelector("#filter-button");
+  const filterButton1 = document.querySelector("#refresh-button2");
+
   const chartYears = document.querySelector("#chart_years");
+  const pieYears = document.querySelector("#stat_years");
   const sensitivity = document.querySelector("#type_data");
 
   const storedData = localStorage.getItem("storedData");
@@ -113,8 +162,13 @@ async function mainEvent() {
   let currentList = []; // this is "scoped" to the main event function
 
   const chartData = processChartData(parsedData);
-  const newChart = initChart(chart, chartData[0], chartData[1]);
+  const newChart = initChart(chart, chartData[0], chartData[1], "bar");
 
+  const pieData = processPieData(parsedData);
+  const newPie = initChart(pie, pieData[0], pieData[1], "doughnut");
+
+  console.log("label", pieData[0]);
+  console.log("data", pieData[1]);
   //   // Basic GET request - this replaces the form Action
   const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
 
@@ -123,7 +177,7 @@ async function mainEvent() {
   localStorage.setItem("storedData", JSON.stringify(storedList));
   parsedData = storedList;
 
-  filterButton.addEventListener("click", (submitEvent) => {
+  chartYears.addEventListener("change", (submitEvent) => {
     submitEvent.preventDefault();
     const recallList = localStorage.getItem("storedData");
     const storedList = JSON.parse(recallList);
@@ -144,18 +198,19 @@ async function mainEvent() {
     updateChart(newChart, filterYear);
   });
 
-  // textField.addEventListener("input", (event) => {
-  //   console.log("input", event.target.value);
-  //   const newFilterList = filterList(currentList, event.target.value);
-  //   console.log(newFilterList);
-  //   injectHTML(newFilterList);
-  //   markerPlace(newFilterList, carto);
-  // });
-  // clearButton.addEventListener("click", (event) => {
-  //   console.log("clear browser data");
-  //   localStorage.clear();
-  //   console.log("localStorage Check", localStorage.getItem("storedData"));
-  // });
+  pieYears.addEventListener("change", (submitEvent) => {
+    submitEvent.preventDefault();
+    console.log("localStorage Check", localStorage.getItem("storedData"));
+    const recallList = localStorage.getItem("storedData");
+    const storedList = JSON.parse(recallList);
+    //671 rows
+    currentList = storedList;
+    const filterYear = filterChartData(currentList, pieYears.value);
+
+    console.log("year: ", chartYears.value);
+    console.log("data: ", filterYear);
+    updateChart(newPie, filterYear);
+  });
 }
 
 /*

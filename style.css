@@ -183,4 +183,8 @@ li a:hover {
     border-color: #fff;
     margin: auto;
   }
+  #myPie{
+    width: 100%;
+    height: 100%
+  }
 }

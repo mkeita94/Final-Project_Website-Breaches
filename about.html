@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Breach Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header class ="header">
+            <h4 id="logo">Data Breach Visualizer</h4>
+            <nav id="menu">
+                <ul>
+                    <li><a href="./index.html">Home</a> </li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="https://github.com/mkeita94/Final-Project_Website-Breaches">Source Code</a></li>
+                </ul>
+            </nav>
+
+        </header>
+        <div class="container">
+            <h2><b>ABOUT</b></h2>
+            <p>
+                <h3><b>What is the purpose of Data Breach Visualizer?</b></h3>
+                The purpose of Data Breach Visualizer is to provide the history
+                 of websites’ breaches that have occurred in order to help 
+                 people in their decision making. The first graph shows the 
+                 number of account breaches for some websites generated randomly
+                , they can be filtered based on the sensitivity and the year in
+                which it occurs. Moreover, the second graph provides a 
+                 summary of breaches for each year, and it includes the proportion
+                 dataclasses involved in the breach. For example, the number of
+                 passwords breached in 2021, and so on
+                 <h3><b>Where is the data from?</b></h3>
+                 The data used for this visualization is from the list of Postman
+                 OpenAPI which can be found <a href="https://haveibeenpwned.com/api/v2/breaches/">here</a> 
+                 <h3><b>How to Use</b></h3>
+                 It is simple to use the visualizations. For the first graph, 
+                 there are two dropdown menus, and the first one let you select
+                 "sensitive" or "non-sensitive" information, the second let you
+                 pick the year which automatically update the chart based on both
+                 conditions(sensitivity and year). In the case you see a pop up 
+                 window, that means there is no data returned, and you need to 
+                 the filters. <br>
+            </p>
+
+        </div>
+    </div>
+    <footer id="footer">Copyright 2023 - Websites Breaches Visualizer</footer>
+    <script src="script.js"></script>
+</body>
+</html>

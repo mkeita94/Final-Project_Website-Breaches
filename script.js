@@ -98,6 +98,7 @@ function processChartData(data) {
 }
 
 function processPieData(data) {
+  console.log("call");
   const dataForPie = data.reduce((col, item) => {
     //split by number of breaches
     for (let i = 0; i < item.DataClasses.length; i++) {
@@ -114,22 +115,9 @@ function processPieData(data) {
   const dataSet = Object.values(dataForPie);
   const labels = Object.keys(dataForPie);
 
-  //console.log(dataForChart);
+  console.log("dataset1", dataSet);
+  console.log("labels1", labels);
   return [dataSet, labels];
-}
-
-function addData(chart, object) {
-  const labels = Object.keys(object); // location names
-  const info = Object.values(object); // num of times location appears
-  chart.data.labels = labels;
-  chart.data.datasets.data = info;
-  chart.update();
-}
-
-function removeData(chart) {
-  chart.data.labels = [];
-  chart.data.datasets.data = [];
-  chart.update();
 }
 
 function updateChart(chart, newInfo) {
@@ -169,14 +157,16 @@ async function mainEvent() {
 
   console.log("label", pieData[0]);
   console.log("data", pieData[1]);
-  //   // Basic GET request - this replaces the form Action
+  // Basic GET request - this replaces the form Action
   const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
 
-  //   // This changes the response from the GET into data we can use - an "object"
+  // This changes the response from the GET into data we can use - an "object"
   const storedList = await results.json();
   localStorage.setItem("storedData", JSON.stringify(storedList));
   parsedData = storedList;
 
+  console.log(storedData);
+  console.log(storedList);
   chartYears.addEventListener("change", (submitEvent) => {
     submitEvent.preventDefault();
     const recallList = localStorage.getItem("storedData");
@@ -209,7 +199,7 @@ async function mainEvent() {
 
     console.log("year: ", chartYears.value);
     console.log("data: ", filterYear);
-    updateChart(newPie, filterYear);
+    updatePie(newPie, filterYear);
   });
 }
 

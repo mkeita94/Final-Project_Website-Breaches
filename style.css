@@ -82,12 +82,21 @@
   padding: 5px;
   width: 250px;
 }
-#viz1{
+/*#viz1{
   background-color: lightgray;
   margin-left: 75px;
   padding: 3px;
   width: 100%;
   height: 100%;
+}*/
+
+#viz1{
+  position: relative;
+  background-color: lightgray;
+  margin-left: 75px;
+  padding: 3px;
+  width: 40vh;
+  height: 80vw;
 }
 #viz1, #viz2{
   background-color: lightgray;

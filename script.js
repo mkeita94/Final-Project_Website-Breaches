@@ -80,12 +80,6 @@ function initChart(target, data, labels, type) {
 
 function processChartData(data) {
   const dataForChart = data.reduce((col, item, idx) => {
-    //split by number of breaches
-    // if (!col[item.Name]) {
-    //   col[item.Name] = 1;
-    // } else {
-    //   col[item.Name] += 1;
-    // }
     col[item.Name] = item.PwnCount;
     return col;
   }, {});
@@ -93,7 +87,7 @@ function processChartData(data) {
   const dataSet = Object.values(dataForChart);
   const labels = Object.keys(dataForChart);
 
-  //console.log(dataForChart);
+  console.log(dataForChart);
   return [dataSet, labels];
 }
 
@@ -144,8 +138,19 @@ async function mainEvent() {
   const pieYears = document.querySelector("#stat_years");
   const sensitivity = document.querySelector("#type_data");
 
+  localStorage.clear();
   const storedData = localStorage.getItem("storedData");
+  console.log("S", storedData);
   let parsedData = JSON.parse(storedData);
+
+  if (storedData === null) {
+    const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
+
+    // This changes the response from the GET into data we can use - an "object"
+    const storedList = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(storedList));
+    parsedData = storedList;
+  }
 
   let currentList = []; // this is "scoped" to the main event function
 
@@ -163,6 +168,7 @@ async function mainEvent() {
   // This changes the response from the GET into data we can use - an "object"
   const storedList = await results.json();
   localStorage.setItem("storedData", JSON.stringify(storedList));
+  // parsedData = storedList;
   parsedData = storedList;
 
   console.log(storedData);

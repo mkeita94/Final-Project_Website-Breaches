@@ -28,7 +28,7 @@ function filterList(array, filterInputValue) {
 
 function randomList(min, max) {
   idx = [];
-  while (idx.length < 50) {
+  while (idx.length < 100) {
     let r = getRandomIntInclusive(min, max);
     if (idx.indexOf(r) === -1) idx.push(r);
   }
@@ -53,7 +53,7 @@ function filterPieData(array, year) {
   return array.filter((item) => item.BreachDate.slice(0, 4).includes(year));
 }
 
-function initChart(target, data, labels, type) {
+function initChart(target, data, labels, type, title) {
   const chart = new Chart(target, {
     type: type,
     data: {
@@ -71,6 +71,12 @@ function initChart(target, data, labels, type) {
       scales: {
         y: {
           beginAtZero: true,
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: title,
         },
       },
     },
@@ -153,10 +159,22 @@ async function mainEvent() {
   let currentList = []; // this is "scoped" to the main event function
 
   const chartData = processChartData(parsedData);
-  const newChart = initChart(chart, chartData[0], chartData[1], "bar");
+  const newChart = initChart(
+    chart,
+    chartData[0],
+    chartData[1],
+    "bar",
+    "Number of Accounts Breached per Companies"
+  );
 
   const pieData = processPieData(parsedData);
-  const newPie = initChart(pie, pieData[0], pieData[1], "doughnut");
+  const newPie = initChart(
+    pie,
+    pieData[0],
+    pieData[1],
+    "doughnut",
+    "Number of Breaches related to Dataclasses"
+  );
 
   console.log("label", pieData[0]);
   console.log("data", pieData[1]);

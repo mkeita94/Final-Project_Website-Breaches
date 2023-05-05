@@ -41,20 +41,38 @@
                  passwords breached in 2021, and so on
                  <h3><b>Where is the data from?</b></h3>
                  The data used for this visualization is from the list of Postman
-                 OpenAPI which can be found <a href="https://haveibeenpwned.com/api/v2/breaches/">here</a> 
+                 OpenAPI which can be found here<a href="https://haveibeenpwned.com/api/v2/breaches/" target="_blank">
+                    <img src="./images/pwned_img.jpg" alt="pwned Image" width = "200">
+                 </a> 
                  <h3><b>How to Use</b></h3>
+                 <h4>Number of Accounts Breached per Company</h4>
                  <div class="img_display">
-                    <img src="./images/chartFilter.PNG" alt="Chart Filter" width="300">
-                    <img src="./images/chart.PNG" alt="Chart" width="300">
+                    <img src="./images/chartFilter.PNG" alt="Chart Filter Image">
+                    <img src="./images/chart.PNG" alt="Chart Image">
                  </div>
-                 
-                 It is simple to use the visualizations. For the first graph, 
+                 It is simple to use the visualizations.  The chart generates 100 random
+                 data point from the API and among those 100 endpoints.For the first graph, 
                  there are two dropdown menus, and the first one let you select
                  "sensitive" or "non-sensitive" information, the second let you
                  pick the year which automatically update the chart based on both
-                 conditions(sensitivity and year). In the case you see a pop up 
-                 window, that means there is no data returned, and you need to 
-                 the filters. <br>
+                 conditions(sensitivity and year). In the case you see a blank 
+                 chart, that means there is no data returned, and you should update 
+                 the filters. Finally, the refresh button allows to get fresh 
+                 data and reinitialize the state of the chart.<br>
+
+                 <h4>Number of Breaches related to Dataclasses</h4>
+                 <div class="img_display">
+                    <img src="./images/pieFilter.PNG" alt="Pie Filter Image">
+                    <img src="./images/pie.PNG" alt="Pie Image">
+                 </div>
+                 This second chart known as doughnt chart is simple to use. It
+                 displays the frequency of each dataclass like passwords, emails, 
+                 and IP addresses. The chart reads its data from the API and store
+                 it into localstorage for a better user experience. 
+                 There are one dropdown menu which let you
+                 pick the year which automatically update the chart.
+                 Finally, the refresh button allows to get fresh 
+                 data and reinitialize the state of the chart.<br>
             </p>
 
         </div>

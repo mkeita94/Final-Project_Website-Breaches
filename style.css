@@ -122,19 +122,6 @@
 
 }
 
-#viz2 #companies, #sensitive, #info{
-  border-color: black;
-  border-radius: 20px;
-  text-align: center;
-  width: fit-content;
-  height: fit-content;
-}
-#viz2 #companies{
-  background-color: aqua;
-} 
-#viz2 #sensitive{
-  background-color: red;
-} 
 .box {
   border: 2px solid white;
   border-radius: 4px;
@@ -152,13 +139,25 @@ li a:hover {
   color: rgb(246, 169, 93);
   text-decoration: none;
 }
-
+#myPie{
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+}
+#myChart{
+  width: 100%;
+  height: 100%;
+}
+.img_display{
+  display: flex;
+}
 /* How To Write A Media Query For Small Screens */
   
 @media only screen and (max-width: 1000px){
   /* Rules in here will only apply when a screen is the correct size */
   /* check it out by using your developer tools to shrink your screen-size */
   .container {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -192,8 +191,10 @@ li a:hover {
     border-color: #fff;
     margin: auto;
   }
-  #myPie{
-    width: 100%;
-    height: 100%
+  
+  .img_display{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
 }

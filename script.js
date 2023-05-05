@@ -102,7 +102,6 @@ function processPieData(data) {
         col[item.DataClasses[i]] += 1;
       }
     }
-    //col[item.Name] = item.PwnCount;
     return col;
   }, {});
 
@@ -131,9 +130,8 @@ async function mainEvent() {
   // the async keyword means we can make API requests
   const chart = document.querySelector("#myChart");
   const pie = document.querySelector("#myPie");
-  const filterButton = document.querySelector("#filter-button");
-  const filterButton1 = document.querySelector("#refresh-button2");
-
+  const refreshButton1 = document.querySelector("#refresh-button1");
+  const refreshButton2 = document.querySelector("#refresh-button2");
   const chartYears = document.querySelector("#chart_years");
   const pieYears = document.querySelector("#stat_years");
   const sensitivity = document.querySelector("#type_data");
@@ -171,8 +169,6 @@ async function mainEvent() {
   // parsedData = storedList;
   parsedData = storedList;
 
-  console.log(storedData);
-  console.log(storedList);
   chartYears.addEventListener("change", (submitEvent) => {
     submitEvent.preventDefault();
     const recallList = localStorage.getItem("storedData");
@@ -187,8 +183,6 @@ async function mainEvent() {
       chartYears.value,
       sensitivity.value
     );
-    if (filterYear.length === 0)
-      window.alert("ZERO VALUE RETURNED\n\n REFRESH TO GENERATE DATA");
     console.log("year: ", chartYears.value);
     console.log("data: ", filterYear);
     updateChart(newChart, filterYear);
@@ -206,6 +200,37 @@ async function mainEvent() {
     console.log("year: ", chartYears.value);
     console.log("data: ", filterYear);
     updatePie(newPie, filterYear);
+  });
+
+  refreshButton1.addEventListener("click", async (submitEvent) => {
+    console.log("clicked refresh");
+    //submitEvent.preventDefault();
+    localStorage.clear();
+    const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
+
+    // This changes the response from the GET into data we can use - an "object"
+    const storedList = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(storedList));
+    const recallList = localStorage.getItem("storedData");
+    const parsedData = JSON.parse(recallList);
+    //671 rows
+    currentList = parsedData;
+    updateChart(newChart, currentList);
+  });
+  refreshButton2.addEventListener("click", async (submitEvent) => {
+    console.log("clicked refresh");
+    //submitEvent.preventDefault();
+    localStorage.clear();
+    const results = await fetch("https://haveibeenpwned.com/api/v2/breaches/");
+
+    // This changes the response from the GET into data we can use - an "object"
+    const storedList = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(storedList));
+    const recallList = localStorage.getItem("storedData");
+    const parsedData = JSON.parse(recallList);
+    //671 rows
+    currentList = parsedData;
+    updatePie(newPie, currentList);
   });
 }
 
